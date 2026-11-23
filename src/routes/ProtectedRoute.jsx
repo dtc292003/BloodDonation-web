@@ -3,11 +3,26 @@ import { Navigate, Outlet, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth";
 
 function ProtectedRoute({ allowedRoles }) {
+  const {
+    isAuthenticated,
+    role,
+    isRestoringSession,
+  } = useAuth();
 
-  const { isAuthenticated, role } = useAuth();
   const location = useLocation();
 
-  // Chưa đăng nhập
+  // 1. Chờ khôi phục phiên khi F5
+  if (isRestoringSession) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-sm text-slate-600">
+          Đang khôi phục phiên đăng nhập...
+        </p>
+      </div>
+    );
+  }
+
+  // 2. Chưa đăng nhập hoặc phiên không hợp lệ
   if (!isAuthenticated) {
     return (
       <Navigate
@@ -18,12 +33,12 @@ function ProtectedRoute({ allowedRoles }) {
     );
   }
 
-  // Đã đăng nhập nhưng không đúng quyền
+  // 3. Đã đăng nhập nhưng không đúng quyền
   if (!allowedRoles.includes(role)) {
     return <Navigate to="/forbidden" replace />;
   }
 
-  // Đủ quyền mới hiển thị Layout và Page
+  // 4. Đủ quyền truy cập
   return <Outlet />;
 }
 

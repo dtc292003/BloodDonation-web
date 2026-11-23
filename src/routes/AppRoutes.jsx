@@ -28,6 +28,9 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 //Verify Email Page
 import VerifyEmailPage from "../pages/auth/VerifyEmailPage";
 
+// Password Recovery Page
+import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
+
 function AppRoutes() {
   return (
     <Routes>
@@ -40,6 +43,7 @@ function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-medical" element={<MedicalRegisterPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Route>
 
       {/* 3. Trang lỗi phân quyền */}
